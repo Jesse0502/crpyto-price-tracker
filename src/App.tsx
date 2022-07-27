@@ -19,7 +19,7 @@ export const App = () => {
     let json = await res.json();
     const data: any = [];
     const symbols: string[] = [];
-    json.result.splice(0, 25).forEach((i: any) => {
+    json.result.splice(0, 100).forEach((i: any) => {
       symbols.push(i.symbol);
       data.push({
         symbol: i.symbol,
@@ -139,7 +139,7 @@ export const App = () => {
             <Flex flex={1}>
               <Box p="2" w="full">
                 {symbols.map((i: any, idx: number) => (
-                  <Price symbol={i} />
+                  <Price symbol={i} key={idx} />
                 ))}
               </Box>
             </Flex>

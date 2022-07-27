@@ -3,7 +3,7 @@ import React from "react";
 
 const Price = (props: any) => {
   const { symbol } = props;
-  const [price, setPrice] = React.useState(0);
+  const [price, setPrice] = React.useState<number | string>(0);
   const [status, setStatus] = React.useState("");
 
   function openSocket() {
@@ -24,7 +24,14 @@ const Price = (props: any) => {
     });
 
     ws.addEventListener("message", (m) => {
-      setPrice(JSON.parse(m.data).mark_price ?? 0);
+      setPrice("");
+      setTimeout(() => {
+        setPrice(
+          isNaN(JSON.parse(m.data).mark_price)
+            ? 0
+            : (+JSON.parse(m.data).mark_price).toFixed(2)
+        );
+      }, 100);
     });
   }
 
@@ -40,7 +47,7 @@ const Price = (props: any) => {
       )}
       {price !== 0 && (
         <Text fontWeight="bold" py="2">
-          {(+price).toFixed(2)}
+          {price}
         </Text>
       )}
     </>
